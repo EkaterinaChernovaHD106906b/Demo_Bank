@@ -54,7 +54,11 @@ public class Guru99_Bank {
 
     @Test
     void gtplBankLogOut() {
-        open("http://demo.guru99.com/V1/html/Managerhomepage.php");
+        //open("http://demo.guru99.com/V1/html/Managerhomepage.php");
+        open("https://demo.guru99.com/V1/index.php");
+        $("input[name='uid']").setValue("mngr463931");
+        $("input[name='password']").setValue("vUbapEh");
+        $("input[name='btnLogin']").click();
         $("a[href='Logout.php']").click();
         $("form[name='frmLogin']").shouldBe(Condition.visible, Duration.ofSeconds(30));
 
@@ -75,10 +79,10 @@ public class Guru99_Bank {
     @Test
     void toursSignOn() {
         open("https://demo.guru99.com/test/newtours/login.php");
-        $("input[name='userName']").setValue(faker.name().username());
-        $("input[name='password']").setValue(faker.internet().password());
+        $("input[name='userName']").setValue("Elix767@gmail.com");
+        $("input[name='password']").setValue("pass1");
         $("input[name='submit']").click();
-        $x("//b[contains(text(),'Thank you for Loggin')]").shouldBe(Condition.visible, Duration.ofSeconds(30));
+        $x("//b[contains(text(),'Thank you for Login')]").shouldBe(Condition.visible, Duration.ofSeconds(30));
 
     }
 
@@ -104,4 +108,21 @@ public class Guru99_Bank {
 
 
     }
+
+    @Test
+    void paymentGateway() {
+        open("https://demo.guru99.com/payment-gateway/index.php");
+        $("option[value='2']").click();
+        $("input[value='Buy Now']").click();
+        $x("//h2[text()='Payment Process']").shouldBe(Condition.visible, Duration.ofSeconds(20));
+        $("input[id='card_nmuber']").setValue("7626378637826382");
+        $("select[id='month'] option[value='6']").click();
+        $("select[id='year'] option[value='2025']").click();
+        $("#cvv_code").setValue(faker.finance().creditCard().substring(1, 4));
+        $("ul.actions").click();
+        $x("//h2[text()='Payment successfull!']").shouldBe(Condition.visible, Duration.ofSeconds(20));
+
+
+    }
+
 }
