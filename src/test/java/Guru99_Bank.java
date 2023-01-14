@@ -7,6 +7,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 import java.time.Duration;
 import java.util.Locale;
@@ -80,7 +82,7 @@ public class Guru99_Bank {
     void toursSignOn() {
         open("https://demo.guru99.com/test/newtours/login.php");
         $("input[name='userName']").setValue("Elix767@gmail.com");
-        $("input[name='password']").setValue("pass1");
+        $("input[name='password']").setValue("pass");
         $("input[name='submit']").click();
         $x("//b[contains(text(),'Thank you for Login')]").shouldBe(Condition.visible, Duration.ofSeconds(30));
 
@@ -125,4 +127,13 @@ public class Guru99_Bank {
 
     }
 
+    @Test
+    void iFrame() {
+        open("https://the-internet.herokuapp.com/iframe");
+        $x("//*[@class='tox-edit-area']").click();
+       switchTo().frame($x("//*[@id='mce_0_ifr']")).findElement(By.xpath("//*[@id='tinymce']")).clear();
+       $("#tinymce").setValue("My text");
+
+
+    }
 }
