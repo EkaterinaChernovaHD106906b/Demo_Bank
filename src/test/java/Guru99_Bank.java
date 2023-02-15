@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.Locale;
 
@@ -131,9 +132,22 @@ public class Guru99_Bank {
     void iFrame() {
         open("https://the-internet.herokuapp.com/iframe");
         $x("//*[@class='tox-edit-area']").click();
-       switchTo().frame($x("//*[@id='mce_0_ifr']")).findElement(By.xpath("//*[@id='tinymce']")).clear();
-       $("#tinymce").setValue("My text");
+        switchTo().frame($x("//*[@id='mce_0_ifr']")).findElement(By.xpath("//*[@id='tinymce']")).clear();
+        $("#tinymce").setValue("My text");
 
 
+    }
+
+    @Test
+    void fileUploader() {
+        open("https://the-internet.herokuapp.com/upload");
+        $x("//*[@id='file-upload'] [@name='file']").uploadFile(new File("src/test/File.txt"));
+        $("#file-submit").click();
+        $x("//h3[text()='File Uploaded!']").shouldBe(Condition.visible, Duration.ofSeconds(15));
+    }
+
+    @Test
+    void fileUploaderWithMethod2() throws Exception {
+        UploadFile.Uploader();
     }
 }
