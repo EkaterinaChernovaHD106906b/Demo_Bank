@@ -1,5 +1,8 @@
+package ru.guru99.test;
+
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.commands.UploadFile;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.github.javafaker.Faker;
 import io.qameta.allure.selenide.AllureSelenide;
@@ -9,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import ru.guru99.page.*;
 
 import java.io.File;
 import java.time.Duration;
@@ -78,17 +82,10 @@ public class Guru99_Bank {
     @Test
     void paymentGateway() {
         open("https://demo.guru99.com/payment-gateway/index.php");
-        $("option[value='2']").click();
-        $("input[value='Buy Now']").click();
-        $x("//h2[text()='Payment Process']").shouldBe(Condition.visible, Duration.ofSeconds(20));
-        $("input[id='card_nmuber']").setValue("7626378637826382");
-        $("select[id='month'] option[value='6']").click();
-        $("select[id='year'] option[value='2025']").click();
-        $("#cvv_code").setValue(faker.finance().creditCard().substring(1, 4));
-        $("ul.actions").click();
-        $x("//h2[text()='Payment successfull!']").shouldBe(Condition.visible, Duration.ofSeconds(20));
-
-
+        new PaymentPage()
+                .buyProduct("7626378637826382");
+        new PaymentSuccessfullPage()
+                .checkPayment();
     }
 
     @Test
@@ -107,11 +104,6 @@ public class Guru99_Bank {
         $x("//*[@id='file-upload'] [@name='file']").uploadFile(new File("src/test/File.txt"));
         $("#file-submit").click();
         $x("//h3[text()='File Uploaded!']").shouldBe(Condition.visible, Duration.ofSeconds(15));
-    }
-
-    @Test
-    void fileUploaderWithMethod2() throws Exception {
-        UploadFile.Uploader();
     }
 
 }
